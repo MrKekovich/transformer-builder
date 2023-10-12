@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "transformer-builder"
+version = "0.0.2"
+description = "This package provides builder-like API to build really flexible transformers using PyTorch"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+keywords = [
+    "transformer",
+    "builder",
+    "pytorch",
+    "transformers",
+]
+authors = [
+    { name = "MrKekovich", email = "mrkekovich.official@gmail.com" },
+]
+dependencies = [
+    "torch >= 2.1.0",
+    "pydantic >= 2.4.2",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/MrKekovich/transformer-builder"
+"Bug Tracker" = "https://github.com/MrKekovich/transformer-builder/issues"
+
+[project.optional-dependencies]
+dev = [
+    "twine",
+    "pytest",
+    "black",
+    "hypothesis",
+    "pre-commit"
+]
