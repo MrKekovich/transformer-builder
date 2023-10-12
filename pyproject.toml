@@ -4,11 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "transformer-builder"
-version = "0.0.2"
+version = "0.0.3"
 description = "This package provides builder-like API to build really flexible transformers using PyTorch"
 readme = "README.md"
 license = { file = "LICENSE" }
-requires-python = ">=3.8"
+requires-python = ">=3.8, <=3.11.6"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
