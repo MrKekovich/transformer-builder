@@ -1,6 +1,7 @@
 # This project is incomplete!
 
 ---
+
 # Transformer Builder - Create Custom Transformer Models with Ease
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
@@ -56,14 +57,14 @@ gpt_model = (
         # You can use specific implementation of self-attention block with classes:
         # EncoderSelfAttentionBlock and DecoderSelfAttentionBlock.
         SelfAttentionBlock(  # Uses polymorphism to create different implementations of self-attention block.
-            before=nn.Sequential([
+            before=nn.Sequential(
                 nn.Linear(embedding_dimension, embedding_dimension * 4),
                 nn.Linear(embedding_dimension * 4, embedding_dimension),
-            ]),
-            k=nn.Sequential([
+            ),
+            k=nn.Sequential(
                 nn.Linear(embedding_dimension, embedding_dimension * 2),
                 nn.Linear(embedding_dimension * 2, embedding_dimension),
-            ]),
+            ),
             q=builder.decoder_block(),  # You can even pass whole decoder block into self-attention block!
             # The standard decoder_block implementation is copied from GPT-1. 
             # You can change that to your needs by monkey-patching TransformerBuilder or subclassing it.
@@ -88,7 +89,7 @@ layer normalization, and linear layers.
 ## Contributing
 
 If you would like to contribute to this project, please follow our
-[contribution guidelines](CONTRIBUTING.md).
+[contribution guidelines](https://github.com/MrKekovich/transformer-builder/blob/master/CONTRIBUTING.md).
 
 ## Support and Feedback
 
@@ -106,4 +107,6 @@ decoder blocks in deep learning models.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
+See the [LICENSE](https://github.com/MrKekovich/transformer-builder/blob/master/LICENSE) 
+file for details.
