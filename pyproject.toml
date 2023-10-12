@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "transformer-builder"
+version = "0.0.1"
+description = "This package provides API to build really flexible transformers using PyTorch"
+readme = "README.md"
+requires-python = ">=3.8"
+keywords = [
+    "transformer",
+    "builder",
+    "pytorch",
+    "transformers",
+]
+authors = [
+    {name = "MrKekovich", email = "mrkekovich.official@gmail.com"},
+]
+
+[project.dependencies]
+torch = "^2.1.0"
+pydantic = "^2.4.2"
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "black",
+    "hypothesis",
+    "pre-commit"
+]
+
