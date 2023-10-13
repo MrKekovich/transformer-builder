@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "transformer-builder"
-version = "0.0.1a0"
+version = "0.0.1a1"
 description = "This package provides builder-like API to create really flexible transformers using PyTorch"
 authors = ["MrKekovich <mrkekovich.official@gmail.com>"]
 license = "BSD-3-Clause"
