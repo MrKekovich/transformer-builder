@@ -4,7 +4,7 @@
 
 # Transformer Builder - Create Custom Transformer Models with Ease
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-BSD-blue.svg)](https://github.com/MrKekovich/transformer-builder/blob/master/LICENSE)
 [![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
 
 Transformers have become a popular choice for a wide range of Natural Language Processing (NLP) and deep learning tasks.
