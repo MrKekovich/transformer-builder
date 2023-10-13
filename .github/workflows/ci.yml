@@ -1,0 +1,58 @@
+name: CI
+on:
+  push:
+    branches:
+      - master
+      - dev
+  pull_request:
+    branches:
+      - master
+      - dev
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ 3.8, 3.9, 3.10, 3.11.6 ]
+
+    steps:
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+      - uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Install dependencies
+        run: |
+          poetry install
+      - name: Test with pytest
+        run: |
+          poetry run pytest test
+
+
+  format:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run Black
+        uses: black-action@v1
+        with:
+          args: .
+
+
+  lint:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ruff linting
+        uses: chartboost/ruff-action@v1
+        with:
+          args: .
