@@ -16,7 +16,6 @@ modularity for your deep learning projects.
 - Build custom transformer models with a user-friendly and flexible interface.
 - Configurable encoder and decoder blocks with support for custom self-attention mechanisms.
 - Encapsulated self-attention blocks that adapt to your specific use case.
-- Create encoder and decoder blocks for a wide range of NLP tasks.
 - Open-source and customizable to fit your project's requirements.
 
 ## Installation
