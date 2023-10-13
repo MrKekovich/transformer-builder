@@ -1,0 +1,21 @@
+repos:
+  - repo: local
+    hooks:
+      - id: ruff
+        name: Ruff
+        entry: ruff
+        language: system
+        types: [ python ]
+        args: [ "." ]
+      - id: pytest
+        name: Pytest
+        entry: pytest
+        language: system
+        types: [ python ]
+        args: [ "test" ]
+      - id: black
+        name: Black
+        entry: black
+        language: system
+        types: [ python ]
+        args: [ "." ]

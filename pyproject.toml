@@ -33,6 +33,7 @@ torch = "^2.1.0"
 pydantic = "^2.4.2"
 
 [tool.poetry.group.dev.dependencies]
+black = "^23.9.1"
 ruff = "^0.0.292"
 ruff-lsp = "^0.0.40"
 pytest = "^7.4.2"
