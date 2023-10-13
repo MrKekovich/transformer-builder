@@ -7,13 +7,13 @@ class TransformerBuilder:
     """
 
     def __init__(
-            self,
-            max_sequence_length: int,
-            vocabulary_size: int = None,
-            embedding_dimension: int = None,
-            default_positional_encoding: Optional[Callable] = None,
-            default_decoder_block: Optional[Callable] = None,
-            default_encoder_block: Optional[Callable] = None,
+        self,
+        max_sequence_length: int,
+        vocabulary_size: int = None,
+        embedding_dimension: int = None,
+        default_positional_encoding: Optional[Callable] = None,
+        default_decoder_block: Optional[Callable] = None,
+        default_encoder_block: Optional[Callable] = None,
     ):
         """
         Args:
@@ -24,7 +24,6 @@ class TransformerBuilder:
             default_decoder_block:
             default_encoder_block:
         """
-
 
     def decoder_block(self, *layers):
         return self
