@@ -3,7 +3,7 @@ name = "transformer-builder"
 version = "0.0.1a0"
 description = "This package provides builder-like API to create really flexible transformers using PyTorch"
 authors = ["MrKekovich <mrkekovich.official@gmail.com>"]
-license = "MIT"
+license = "BSD-3-Clause"
 readme = "README.md"
 repository = "https://github.com/MrKekovich/transformer-builder"
 keywords = ["pytorch", "transformer", "ai"]
@@ -11,7 +11,7 @@ classifiers = [
     "Development Status :: 1 - Planning",
     "Intended Audience :: Science/Research",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: BSD License",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
