@@ -74,7 +74,7 @@ gpt_model = (
             count=10  # Notice that number of heads should be a divisor for embedding dimension.
         ),
         count=10
-    )
+    ).build()
 )
 
 ```
