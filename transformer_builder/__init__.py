@@ -1,4 +1,5 @@
-from .builders.self_attention_block import SelfAttentionBlock
-from .builders.transformer_builder import TransformerBuilder
+from .builder import TransformerBuilder
 
-__all__ = ["TransformerBuilder", "SelfAttentionBlock"]
+__all__ = [
+    "TransformerBuilder",
+]
