@@ -1,7 +1,6 @@
 from .blocks import (
     DecoderBlock,
     EncoderBlock,
-    MaskedSelfAttention,
     MultiHeadAttention,
     SelfAttentionBlock,
 )
@@ -13,7 +12,6 @@ __all__ = [
     "Encoder",
     "DecoderBlock",
     "EncoderBlock",
-    "MaskedSelfAttention",
     "MultiHeadAttention",
     "SelfAttentionBlock",
 ]

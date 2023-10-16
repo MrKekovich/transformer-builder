@@ -7,12 +7,14 @@ class SelfAttentionBlock(nn.Module):
     def __init__(
         self,
         layer_before: nn.Module = nn.Identity(),
-        k_architecture: nn.Module = None,
-        q_architecture: nn.Module = None,
-        v_architecture: nn.Module = None,
-        attention_scale: float = None,
+        # TODO: remove nn.Identity() for qkv and add default implementation
+        k_architecture: nn.Module = nn.Identity(),
+        q_architecture: nn.Module = nn.Identity(),
+        v_architecture: nn.Module = nn.Identity(),
+        custom_attention_mask: torch.Tensor = None,
         dropout: float = 0.1,
         is_causal: bool = False,
+        attention_scale_factor: float = None,
         layer_after: nn.Module = nn.Identity(),
     ):
         super().__init__()
@@ -22,9 +24,10 @@ class SelfAttentionBlock(nn.Module):
         self.q_architecture = q_architecture
         self.v_architecture = v_architecture
 
+        self.custom_attention_mask = custom_attention_mask
         self.dropout = dropout
         self.is_causal = is_causal
-        self.attention_scale = attention_scale
+        self.attention_scale_factor = attention_scale_factor
 
         self.layer_after = layer_after
 
@@ -42,9 +45,10 @@ class SelfAttentionBlock(nn.Module):
             query=query,
             key=key,
             value=value,
+            attn_mask=self.custom_attention_mask,
             dropout_p=self.dropout,
             is_causal=self.is_causal,
-            scale=self.attention_scale,
+            scale=self.attention_scale_factor,
         )
 
         attention = self.layer_after(attention)
