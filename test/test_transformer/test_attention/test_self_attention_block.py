@@ -26,11 +26,8 @@ def test_creation_and_forward(
     tensor = torch.randn(batch_size, seq_len, embedding_dim)
     mask = torch.ones(seq_len, seq_len).tril(diagonal=diagonal)
 
-    print(tensor, tensor.shape)
-
-    attention_default = SelfAttentionBlock()
+    attention_default = SelfAttentionBlock(embedding_dimension=embedding_dim)
     assert attention_default(tensor).shape == tensor.shape
-    print(attention_default(tensor))
 
     attention_custom = SelfAttentionBlock(
         layer_before=nn.Linear(in_features=embedding_dim, out_features=embedding_dim),
@@ -44,4 +41,3 @@ def test_creation_and_forward(
         layer_after=nn.Linear(in_features=embedding_dim, out_features=embedding_dim),
     )
     assert attention_custom(tensor).shape == tensor.shape
-    print(attention_custom(tensor))

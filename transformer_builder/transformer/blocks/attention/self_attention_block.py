@@ -6,11 +6,11 @@ from torch import nn
 class SelfAttentionBlock(nn.Module):
     def __init__(
         self,
+        embedding_dimension: int = 512,
         layer_before: nn.Module = nn.Identity(),
-        # TODO: remove nn.Identity() for qkv and add default implementation
-        k_architecture: nn.Module = nn.Identity(),
-        q_architecture: nn.Module = nn.Identity(),
-        v_architecture: nn.Module = nn.Identity(),
+        k_architecture: nn.Module = None,
+        q_architecture: nn.Module = None,
+        v_architecture: nn.Module = None,
         custom_attention_mask: torch.Tensor = None,
         dropout: float = 0.1,
         is_causal: bool = False,
@@ -18,11 +18,19 @@ class SelfAttentionBlock(nn.Module):
         layer_after: nn.Module = nn.Identity(),
     ):
         super().__init__()
+        self.embedding_dimension = embedding_dimension
+
         self.layer_before = layer_before
 
-        self.k_architecture = k_architecture
-        self.q_architecture = q_architecture
-        self.v_architecture = v_architecture
+        self.k_architecture = k_architecture or nn.Linear(
+            embedding_dimension, embedding_dimension
+        )
+        self.q_architecture = q_architecture or nn.Linear(
+            embedding_dimension, embedding_dimension
+        )
+        self.v_architecture = v_architecture or nn.Linear(
+            embedding_dimension, embedding_dimension
+        )
 
         self.custom_attention_mask = custom_attention_mask
         self.dropout = dropout
