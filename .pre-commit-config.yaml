@@ -6,7 +6,7 @@ repos:
         entry: pytest
         language: system
         types: [ python ]
-        args: [ "test" ]
+        args: [ "tests" ]
 
       - id: ruff
         name: Ruff

@@ -1,7 +1,7 @@
 from .multi_head_attention import MultiHeadAttention
-from .self_attention_block import SelfAttentionBlock
+from .self_attention import SelfAttention
 
 __all__ = [
     "MultiHeadAttention",
-    "SelfAttentionBlock",
+    "SelfAttention",
 ]
