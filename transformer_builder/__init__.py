@@ -1,4 +1,9 @@
-from .builders.self_attention_block import SelfAttentionBlock
-from .builders.transformer_builder import TransformerBuilder
+from .decoder import DecoderBuilder
+from .encoder import EncoderBuilder
+from .transformer import TransformerBuilder
 
-__all__ = ["TransformerBuilder", "SelfAttentionBlock"]
+__all__ = [
+    "DecoderBuilder",
+    "EncoderBuilder",
+    "TransformerBuilder",
+]

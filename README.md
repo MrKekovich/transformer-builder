@@ -6,6 +6,7 @@
 
 [![License](https://img.shields.io/badge/license-BSD-blue.svg)](https://github.com/MrKekovich/transformer-builder/blob/master/LICENSE)
 [![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
+[![Project Status](https://img.shields.io/badge/Project%20Status-Planning-blue)](https://github.com/MrKekovich/transformer-builder/)
 
 Transformers have become a popular choice for a wide range of Natural Language Processing (NLP) and deep learning tasks.
 The Transformer Builder package allows you to create custom transformer models with ease, providing flexibility and
@@ -107,5 +108,5 @@ decoder blocks in deep learning models.
 ## License
 
 This project is licensed under the MIT License.
-See the [LICENSE](https://github.com/MrKekovich/transformer-builder/blob/master/LICENSE) 
+See the [LICENSE](https://github.com/MrKekovich/transformer-builder/blob/master/LICENSE)
 file for details.
