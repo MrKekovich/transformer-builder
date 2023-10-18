@@ -20,4 +20,4 @@ repos:
         entry: black
         language: system
         types: [ python ]
-        args: [ "." ]
+        args: [ ".", "--check" ]
