@@ -10,20 +10,35 @@ class MultiHeadAttention(nn.Module):
         layer_before: nn.Module = nn.Identity(),
         layer_after: nn.Module = nn.Identity(),
     ):
+        """
+        Args:
+            embedding_dimension: The dimension of the embedding.
+
+            attention_blocks: A list of attention blocks.
+
+            layer_before: Feed forward layer before multi-head attention.
+
+            layer_after: Feed forward layer after multi-head attention.
+        """
         super().__init__()
         self.embedding_dimension = embedding_dimension
         self.attention_blocks = attention_blocks
 
         self._number_of_heads = len(attention_blocks)
 
-        if self.embedding_dimension % self._number_of_heads != 0:
-            raise ValueError(
-                f"embedding dimension ({self.embedding_dimension}) "
-                f"must be divisible by number of heads ({self._number_of_heads})"
-            )
+        self.validate()
 
         self.layer_before: nn.Module = layer_before
         self.layer_after: nn.Module = layer_after
+
+    def validate(self) -> None:
+        if self._number_of_heads < 1:
+            raise ValueError(f"Number of heads ({self._number_of_heads}) must be >= 1")
+        if self.embedding_dimension % self._number_of_heads != 0:
+            raise ValueError(
+                f"Embedding dimension ({self.embedding_dimension}) "
+                f"must be divisible by number of heads ({self._number_of_heads})"
+            )
 
     def forward(
         self,
@@ -31,12 +46,7 @@ class MultiHeadAttention(nn.Module):
     ) -> torch.Tensor:
         # x.shape = [batch_size, seq_len, embedding_dim]
         x = self.layer_before(x)
-
-        embedding_chunks = torch.chunk(x, self._number_of_heads, dim=-1)
-        heads_output = [
-            attention_head(x)
-            for attention_head, x in zip(self.attention_blocks, embedding_chunks)
-        ]
+        heads_output = [attention_head(x) for attention_head in self.attention_blocks]
 
         x = torch.cat(heads_output, dim=-1)
 

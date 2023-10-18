@@ -1,5 +1,6 @@
 import torch
 from hypothesis import given, strategies as st
+from torch import nn
 
 from transformer_builder.transformer import MultiHeadAttention, SelfAttentionBlock
 
@@ -16,15 +17,23 @@ def test_multi_head_attention(
     seq_len: int,
     embedding_dim: int,
 ) -> None:
-    embedding_dim_for_one_head = embedding_dim
     embedding_dim *= num_heads
 
     input_tensor = torch.randn(batch_size, seq_len, embedding_dim)
 
+    linear = nn.Linear(
+        in_features=embedding_dim,
+        out_features=embedding_dim // num_heads,
+    )
+
     attention = MultiHeadAttention(
         embedding_dimension=embedding_dim,
         attention_blocks=[
-            SelfAttentionBlock(embedding_dimension=embedding_dim_for_one_head)
+            SelfAttentionBlock(
+                k_architecture=linear,
+                q_architecture=linear,
+                v_architecture=linear,
+            )
             for _ in range(num_heads)
         ],
     )
@@ -32,3 +41,7 @@ def test_multi_head_attention(
     attention_output = attention(input_tensor)
 
     assert attention_output.shape == input_tensor.shape
+
+
+if __name__ == "__main__":
+    test_multi_head_attention()

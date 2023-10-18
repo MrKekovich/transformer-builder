@@ -6,31 +6,46 @@ from torch import nn
 class SelfAttentionBlock(nn.Module):
     def __init__(
         self,
-        embedding_dimension: int = 512,
         layer_before: nn.Module = nn.Identity(),
-        k_architecture: nn.Module = None,
-        q_architecture: nn.Module = None,
-        v_architecture: nn.Module = None,
+        k_architecture: nn.Module = nn.Identity(),
+        q_architecture: nn.Module = nn.Identity(),
+        v_architecture: nn.Module = nn.Identity(),
         custom_attention_mask: torch.Tensor = None,
-        dropout: float = 0.1,
+        dropout: float = 0.0,
         is_causal: bool = False,
         attention_scale_factor: float = None,
         layer_after: nn.Module = nn.Identity(),
-    ):
+    ) -> None:
+        """
+        Args:
+            layer_before (nn.Module): Feed forward layer before self-attention.
+
+            k_architecture (nn.Module): The architecture of key computation.
+
+            q_architecture (nn.Module): The architecture of query computation.
+
+            v_architecture (nn.Module): The architecture of value computation.
+
+            custom_attention_mask (torch.Tensor): Used to mask the attention.
+            Must be None when is_causal is True
+
+            dropout (float): The attention dropout.
+
+            is_causal (bool): Casual masking.
+            When true - will apply triangle mask with diagonal = 1.
+
+            attention_scale_factor (float): The attention scale factor.
+            Applied to the q @ k product and is used to normalize the attention.
+
+            layer_after (nn.Module): Feed forward layer after self-attention.
+        """
         super().__init__()
-        self.embedding_dimension = embedding_dimension
 
         self.layer_before = layer_before
 
-        self.k_architecture = k_architecture or nn.Linear(
-            embedding_dimension, embedding_dimension
-        )
-        self.q_architecture = q_architecture or nn.Linear(
-            embedding_dimension, embedding_dimension
-        )
-        self.v_architecture = v_architecture or nn.Linear(
-            embedding_dimension, embedding_dimension
-        )
+        self.k_architecture = k_architecture
+        self.q_architecture = q_architecture
+        self.v_architecture = v_architecture
 
         self.custom_attention_mask = custom_attention_mask
         self.dropout = dropout
@@ -43,6 +58,14 @@ class SelfAttentionBlock(nn.Module):
         self,
         x: torch.Tensor,
     ) -> torch.Tensor:
+        """
+        Args:
+            x (torch.Tensor): The input tensor.
+            Size must be compatible with embedding dimension to perform matmul.
+
+        Returns:
+            (torch.Tensor): The Scaled dot product of attention.
+        """
         x = self.layer_before(x)
 
         query = self.q_architecture(x)
