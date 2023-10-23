@@ -1,17 +1,19 @@
 import torch
 from torch import nn
 
+from .self_attention import SelfAttention
+
 
 class MultiHeadAttention(nn.Module):
     def __init__(
         self,
         layer_before: nn.Module = nn.Identity(),
-        self_attention_heads: list = None,
+        self_attention_heads: list[SelfAttention] = None,
         layer_after: nn.Module = nn.Identity(),
     ):
         super().__init__()
         self.layer_before = layer_before
-        self.self_attention_heads = self_attention_heads or []
+        self.self_attention_heads = self_attention_heads or [SelfAttention()]
         self.layer_after = layer_after
 
     def forward(
