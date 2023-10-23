@@ -1,9 +1,9 @@
 import pytest
 import torch
-from hypothesis import given, settings, strategies as st
+from hypothesis import given, strategies as st, settings
 from torch import nn
 
-from tests.helpers import self_attention_get_all_cases
+from tests.helpers import multi_head_attention_get_all_cases
 
 
 @given(
@@ -18,19 +18,23 @@ def test_backpropagation(
     sequence_length: int,
     embedding_dim: int,
 ) -> None:
-    input_tensor = torch.randn(batch_size, sequence_length, embedding_dim)
-    target_tensor = torch.randn(batch_size, sequence_length, embedding_dim)
+    # One of the test cases requires 3 heads
+    embedding_dim = embedding_dim * 3
+    input_tensor = torch.rand(batch_size, sequence_length, embedding_dim)
+    target_tensor = torch.rand(batch_size, sequence_length, embedding_dim)
 
     loss_fn = nn.MSELoss()
 
-    for attention in self_attention_get_all_cases(embedding_dim=embedding_dim):
+    for multi_head_attention in multi_head_attention_get_all_cases(
+        embedding_dim=embedding_dim
+    ):
         try:
-            optimizer = torch.optim.Adam(attention.parameters())
+            optimizer = torch.optim.Adam(multi_head_attention.parameters())
         except ValueError as e:
             print(f"Empty list of parameters, skipping...\n{e}")
             continue
 
-        output = attention(x=input_tensor)
+        output = multi_head_attention(x=input_tensor)
         loss = loss_fn(output, target_tensor)
         optimizer.zero_grad()
         loss.backward()
