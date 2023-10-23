@@ -6,7 +6,7 @@ from transformer_builder.attention import SelfAttention, MultiHeadAttention
 # <editor-fold desc="Multi Head Attention">
 def multi_head_attention_get_all_cases(
     embedding_dim: int = 3,
-):
+) -> list[MultiHeadAttention]:
     return [
         multi_head_attention_case_default(),
         multi_head_attention_case_simple(
@@ -21,11 +21,11 @@ def multi_head_attention_get_all_cases(
     ]
 
 
-def multi_head_attention_case_default():
+def multi_head_attention_case_default() -> MultiHeadAttention:
     return MultiHeadAttention()
 
 
-def multi_head_attention_case_simple(embedding_dim: int):
+def multi_head_attention_case_simple(embedding_dim: int) -> MultiHeadAttention:
     return MultiHeadAttention(
         self_attention_heads=[self_attention_case_simple(embedding_dim=embedding_dim)],
     )
@@ -33,7 +33,7 @@ def multi_head_attention_case_simple(embedding_dim: int):
 
 def multi_head_attention_case_simple_layers_before_and_after(
     embedding_dim: int,
-):
+) -> MultiHeadAttention:
     assert (
         embedding_dim % 3 == 0
     ), "embedding_dim must be divisible by number of heads (3)"
@@ -59,7 +59,7 @@ def multi_head_attention_case_simple_layers_before_and_after(
 
 def multi_head_attention_case_nested(
     embedding_dim: int,
-):
+) -> MultiHeadAttention:
     return MultiHeadAttention(
         layer_before=MultiHeadAttention(),
         self_attention_heads=[
