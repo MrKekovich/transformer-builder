@@ -1,3 +1,5 @@
+from typing import List
+
 import torch
 from torch import nn
 
@@ -12,7 +14,7 @@ class MultiHeadAttention(nn.Module):
     def __init__(
         self,
         layer_before: nn.Module = nn.Identity(),
-        self_attention_heads: list[SelfAttention | nn.Module] = None,
+        self_attention_heads: List[nn.Module] = None,
         layer_after: nn.Module = nn.Identity(),
     ) -> None:
         """

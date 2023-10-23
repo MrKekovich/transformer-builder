@@ -1,3 +1,5 @@
+from typing import List
+
 from torch import nn
 
 from transformer_builder.attention import SelfAttention, MultiHeadAttention
@@ -6,7 +8,7 @@ from transformer_builder.attention import SelfAttention, MultiHeadAttention
 # <editor-fold desc="Multi Head Attention">
 def multi_head_attention_get_all_cases(
     embedding_dim: int = 3,
-) -> list[MultiHeadAttention]:
+) -> List[MultiHeadAttention]:
     return [
         multi_head_attention_case_default(),
         multi_head_attention_case_simple(
@@ -86,7 +88,7 @@ def multi_head_attention_case_nested(
 # <editor-fold desc="Self Attention">
 def self_attention_get_all_cases(
     embedding_dim: int = 3, num_heads: int = 1
-) -> list[SelfAttention]:
+) -> List[SelfAttention]:
     return [
         self_attention_case_default(),
         self_attention_case_simple(
