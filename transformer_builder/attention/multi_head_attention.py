@@ -13,7 +13,12 @@ class MultiHeadAttention(nn.Module):
     ):
         super().__init__()
         self.layer_before = layer_before
+
         self.self_attention_heads = self_attention_heads or [SelfAttention()]
+
+        if not self.self_attention_heads:
+            raise ValueError("self_attention_heads must not be empty")
+
         self.layer_after = layer_after
 
     def forward(
