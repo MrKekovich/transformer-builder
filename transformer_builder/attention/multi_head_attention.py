@@ -5,12 +5,24 @@ from .self_attention import SelfAttention
 
 
 class MultiHeadAttention(nn.Module):
+    """
+    This class implements the Multi-Head Attention.
+    """
+
     def __init__(
         self,
         layer_before: nn.Module = nn.Identity(),
-        self_attention_heads: list[SelfAttention] = None,
+        self_attention_heads: list[SelfAttention | nn.Module] = None,
         layer_after: nn.Module = nn.Identity(),
-    ):
+    ) -> None:
+        """
+        Args:
+            layer_before: Used before the attention heads.
+
+            self_attention_heads: A list of SelfAttention heads.
+
+            layer_after: Used after the attention heads.
+        """
         super().__init__()
         self.layer_before = layer_before
 
@@ -26,6 +38,19 @@ class MultiHeadAttention(nn.Module):
         x: torch.Tensor,
         mask: torch.Tensor = None,
     ) -> torch.Tensor:
+        """
+        This method implements the forward pass of the Multi-Head Attention.
+        Args:
+            x: The input tensor of shape
+            (optional_batch_size, sequence_length, embedding_dim).
+
+            mask: The mask tensor of shape
+            (optional_batch_size, sequence_length, sequence_length).
+            Used to mask the attention.
+
+        Returns:
+            Tensor: The output tensor.
+        """
         x = self.layer_before(x)
         heads_output = [
             self_attention_head(x, mask)
