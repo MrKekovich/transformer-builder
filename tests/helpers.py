@@ -15,7 +15,7 @@ def multi_head_attention_get_all_cases(
         multi_head_attention_case_simple_layers_before_and_after(
             embedding_dim=embedding_dim,
         ),
-        multi_head_attention_case_nested_self_attention(
+        multi_head_attention_case_nested(
             embedding_dim=embedding_dim,
         ),
     ]
@@ -34,6 +34,9 @@ def multi_head_attention_case_simple(embedding_dim: int):
 def multi_head_attention_case_simple_layers_before_and_after(
     embedding_dim: int,
 ):
+    assert (
+        embedding_dim % 3 == 0
+    ), "embedding_dim must be divisible by number of heads (3)"
     return MultiHeadAttention(
         layer_before=nn.Linear(embedding_dim, embedding_dim),
         self_attention_heads=[
@@ -54,20 +57,20 @@ def multi_head_attention_case_simple_layers_before_and_after(
     )
 
 
-def multi_head_attention_case_nested_self_attention(
+def multi_head_attention_case_nested(
     embedding_dim: int,
 ):
     return MultiHeadAttention(
         layer_before=MultiHeadAttention(),
         self_attention_heads=[
-            self_attention_case_nested_self_attention(
+            self_attention_case_nested(
                 embedding_dim=embedding_dim,
                 num_heads=1,
             )
         ],
         layer_after=MultiHeadAttention(
             self_attention_heads=[
-                self_attention_case_nested_self_attention(
+                self_attention_case_nested(
                     embedding_dim=embedding_dim,
                     num_heads=1,
                 )
@@ -93,7 +96,7 @@ def self_attention_get_all_cases(
         self_attention_case_simple_layers_before_and_after(
             embedding_dim=embedding_dim, num_heads=num_heads
         ),
-        self_attention_case_nested_self_attention(
+        self_attention_case_nested(
             embedding_dim=embedding_dim,
             num_heads=num_heads,
         ),
@@ -128,7 +131,7 @@ def self_attention_case_simple_layers_before_and_after(
     )
 
 
-def self_attention_case_nested_self_attention(
+def self_attention_case_nested(
     embedding_dim: int,
     num_heads: int = 1,
 ) -> SelfAttention:
