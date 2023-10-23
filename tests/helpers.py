@@ -1,28 +1,113 @@
 from torch import nn
 
-from transformer_builder.attention import SelfAttention
+from transformer_builder.attention import SelfAttention, MultiHeadAttention
 
 
-def self_attention_get_all_cases(embedding_dim: int = 3):
+# <editor-fold desc="Multi Head Attention">
+def multi_head_attention_get_all_cases(
+    embedding_dim: int = 3,
+):
     return [
-        self_attention_case_default(),
-        self_attention_case_simple(
+        multi_head_attention_case_default(),
+        multi_head_attention_case_simple(
             embedding_dim=embedding_dim,
         ),
-        self_attention_case_nested_self_attention(
+        multi_head_attention_case_simple_layers_before_and_after(
+            embedding_dim=embedding_dim,
+        ),
+        multi_head_attention_case_nested_self_attention(
             embedding_dim=embedding_dim,
         ),
     ]
 
 
-def self_attention_case_default():
+def multi_head_attention_case_default():
+    return MultiHeadAttention()
+
+
+def multi_head_attention_case_simple(embedding_dim: int):
+    return MultiHeadAttention(
+        self_attention_heads=[self_attention_case_simple(embedding_dim=embedding_dim)],
+    )
+
+
+def multi_head_attention_case_simple_layers_before_and_after(
+    embedding_dim: int,
+):
+    return MultiHeadAttention(
+        layer_before=nn.Linear(embedding_dim, embedding_dim),
+        self_attention_heads=[
+            self_attention_case_simple_layers_before_and_after(
+                embedding_dim=embedding_dim,
+                num_heads=3,
+            ),
+            self_attention_case_simple_layers_before_and_after(
+                embedding_dim=embedding_dim,
+                num_heads=3,
+            ),
+            self_attention_case_simple_layers_before_and_after(
+                embedding_dim=embedding_dim,
+                num_heads=3,
+            ),
+        ],
+        layer_after=nn.Linear(embedding_dim, embedding_dim),
+    )
+
+
+def multi_head_attention_case_nested_self_attention(
+    embedding_dim: int,
+):
+    return MultiHeadAttention(
+        layer_before=MultiHeadAttention(),
+        self_attention_heads=[
+            self_attention_case_nested_self_attention(
+                embedding_dim=embedding_dim,
+                num_heads=1,
+            )
+        ],
+        layer_after=MultiHeadAttention(
+            self_attention_heads=[
+                self_attention_case_nested_self_attention(
+                    embedding_dim=embedding_dim,
+                    num_heads=1,
+                )
+            ]
+        ),
+    )
+    pass
+
+
+# </editor-fold>
+
+
+# <editor-fold desc="Self Attention">
+def self_attention_get_all_cases(
+    embedding_dim: int = 3, num_heads: int = 1
+) -> list[SelfAttention]:
+    return [
+        self_attention_case_default(),
+        self_attention_case_simple(
+            embedding_dim=embedding_dim,
+            num_heads=num_heads,
+        ),
+        self_attention_case_simple_layers_before_and_after(
+            embedding_dim=embedding_dim, num_heads=num_heads
+        ),
+        self_attention_case_nested_self_attention(
+            embedding_dim=embedding_dim,
+            num_heads=num_heads,
+        ),
+    ]
+
+
+def self_attention_case_default() -> SelfAttention:
     return SelfAttention()
 
 
 def self_attention_case_simple(
     embedding_dim: int,
     num_heads: int = 1,
-):
+) -> SelfAttention:
     return SelfAttention(
         q_architecture=nn.Linear(embedding_dim, embedding_dim // num_heads),
         k_architecture=nn.Linear(embedding_dim, embedding_dim // num_heads),
@@ -30,10 +115,10 @@ def self_attention_case_simple(
     )
 
 
-def self_attention_layers_before_and_after(
+def self_attention_case_simple_layers_before_and_after(
     embedding_dim: int,
     num_heads: int = 1,
-):
+) -> SelfAttention:
     return SelfAttention(
         layer_before=nn.Linear(embedding_dim, embedding_dim),
         q_architecture=nn.Linear(embedding_dim, embedding_dim // num_heads),
@@ -46,7 +131,7 @@ def self_attention_layers_before_and_after(
 def self_attention_case_nested_self_attention(
     embedding_dim: int,
     num_heads: int = 1,
-):
+) -> SelfAttention:
     return SelfAttention(
         layer_before=SelfAttention(),
         q_architecture=SelfAttention(
@@ -74,3 +159,6 @@ def self_attention_case_nested_self_attention(
         ),
         layer_after=nn.Linear(embedding_dim // num_heads, embedding_dim // num_heads),
     )
+
+
+# </editor-fold>
