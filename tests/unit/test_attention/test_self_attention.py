@@ -2,7 +2,7 @@ import pytest
 import torch
 from hypothesis import given, strategies as st, settings
 
-from tests.helpers import self_attention_get_all_cases
+from tests.cases.attention import self_attention_get_all_cases
 
 
 @given(
