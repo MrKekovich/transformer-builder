@@ -40,26 +40,27 @@ def multi_head_attention_case_simple(embedding_dim: int) -> MultiHeadAttention:
 def multi_head_attention_case_simple_layers_before_and_after(
     embedding_dim: int,
 ) -> MultiHeadAttention:
+    # 3 heads require embedding_dim to be divisible by 3.
+    # We use embedding_dim * 3 to make it divisible by 3,
+    # so we can use any embedding_dim, and it'll be fine.
+    d_head = embedding_dim * 3
     return MultiHeadAttention(
-        # 3 heads require embedding_dim to be divisible by 3.
-        # We use embedding_dim * 3 to make it divisible by 3,
-        # so we can use any embedding_dim, and it'll be fine.
-        layer_before=nn.Linear(embedding_dim, embedding_dim * 3),
+        layer_before=nn.Linear(embedding_dim, d_head),
         self_attention_heads=[
             self_attention_case_simple_layers_before_and_after(
-                embedding_dim=embedding_dim * 3,
+                embedding_dim=d_head,
                 num_heads=3,
             ),
             self_attention_case_simple_layers_before_and_after(
-                embedding_dim=embedding_dim * 3,
+                embedding_dim=d_head,
                 num_heads=3,
             ),
             self_attention_case_simple_layers_before_and_after(
-                embedding_dim=embedding_dim * 3,
+                embedding_dim=d_head,
                 num_heads=3,
             ),
         ],
-        layer_after=nn.Linear(embedding_dim * 3, embedding_dim),
+        layer_after=nn.Linear(d_head, embedding_dim),
     )
 
 

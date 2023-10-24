@@ -56,30 +56,37 @@ def self_attention_case_nested(
     embedding_dim: int,
     num_heads: int = 1,
 ) -> SelfAttention:
-    return SelfAttention(
-        layer_before=SelfAttention(),
-        q_architecture=SelfAttention(
-            layer_before=nn.Linear(embedding_dim, embedding_dim),
-            q_architecture=nn.Linear(embedding_dim, embedding_dim // num_heads),
-            k_architecture=nn.Linear(embedding_dim, embedding_dim // num_heads),
-            v_architecture=nn.Linear(embedding_dim, embedding_dim // num_heads),
-            layer_after=nn.Linear(
-                embedding_dim // num_heads, embedding_dim // num_heads
-            ),
-        ),
-        k_architecture=SelfAttention(
-            layer_before=SelfAttention(
-                layer_before=SelfAttention(),
-                layer_after=SelfAttention(
-                    layer_before=nn.Linear(embedding_dim, embedding_dim),
-                    layer_after=nn.Linear(embedding_dim, embedding_dim // num_heads),
-                ),
-            ),
-        ),
-        v_architecture=SelfAttention(
-            layer_after=SelfAttention(
-                layer_after=nn.Linear(embedding_dim, embedding_dim // num_heads),
-            )
-        ),
+    layer_before = SelfAttention()
+    q_architecture = SelfAttention(
+        layer_before=nn.Linear(embedding_dim, embedding_dim),
+        q_architecture=nn.Linear(embedding_dim, embedding_dim // num_heads),
+        k_architecture=nn.Linear(embedding_dim, embedding_dim // num_heads),
+        v_architecture=nn.Linear(embedding_dim, embedding_dim // num_heads),
         layer_after=nn.Linear(embedding_dim // num_heads, embedding_dim // num_heads),
+    )
+
+    k_architecture = SelfAttention(
+        layer_before=SelfAttention(
+            layer_before=SelfAttention(),
+            layer_after=SelfAttention(
+                layer_before=nn.Linear(embedding_dim, embedding_dim),
+                layer_after=nn.Linear(embedding_dim, embedding_dim // num_heads),
+            ),
+        ),
+    )
+
+    v_architecture = SelfAttention(
+        layer_after=SelfAttention(
+            layer_after=nn.Linear(embedding_dim, embedding_dim // num_heads),
+        )
+    )
+
+    layer_after = nn.Linear(embedding_dim // num_heads, embedding_dim // num_heads)
+
+    return SelfAttention(
+        layer_before=layer_before,
+        q_architecture=q_architecture,
+        k_architecture=k_architecture,
+        v_architecture=v_architecture,
+        layer_after=layer_after,
     )
