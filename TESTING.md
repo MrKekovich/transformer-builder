@@ -11,10 +11,10 @@ our testing practices and how contributors can test their code contributions.
 
 We rely on two primary testing frameworks for this project:
 
-1. **Pytest**: [Pytest](https://docs.pytest.org/en/7.4.x/) is a powerful and widely-used testing framework for Python.
+1. **Pytest**: [Pytest](https://docs.pytest.org/en/latest/) is a powerful and widely-used testing framework for Python.
    It simplifies test discovery, execution, and reporting, making it an excellent choice for writing and running tests.
 
-2. **Hypothesis**: [Hypothesis](https://hypothesis.works/) is a property-based testing tool that helps us explore a
+2. **Hypothesis**: [Hypothesis](https://hypothesis.readthedocs.io/en/latest/) is a property-based testing tool that helps us explore a
    broader range of scenarios. It generates test cases automatically and is particularly useful for uncovering edge
    cases and unexpected behavior.
 
