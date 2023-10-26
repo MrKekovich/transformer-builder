@@ -57,9 +57,14 @@ class MultiHeadAttention(nn.Module):
             Tensor: The output tensor.
         """
         x = self.layer_before(x)
-        heads_output = [
-            self_attention_head(x, mask)
+        heads_output_future = [
+            torch.jit.fork(self_attention_head, x, mask)
             for self_attention_head in self.self_attention_heads
+        ]
+
+        heads_output = [
+            torch.jit.wait(head_output_future)
+            for head_output_future in heads_output_future
         ]
 
         x = torch.concat(heads_output, dim=-1)
