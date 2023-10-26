@@ -1,4 +1,4 @@
-from typing import List
+from typing import Iterable
 
 import torch
 from torch import nn
@@ -14,21 +14,23 @@ class MultiHeadAttention(nn.Module):
     def __init__(
         self,
         layer_before: nn.Module = nn.Identity(),
-        self_attention_heads: List[nn.Module] = None,
+        self_attention_heads: Iterable[nn.Module] = None,
         layer_after: nn.Module = nn.Identity(),
     ) -> None:
         """
         Args:
             layer_before: Used before the attention heads.
 
-            self_attention_heads: A list of SelfAttention heads.
+            self_attention_heads: The attention heads.
 
             layer_after: Used after the attention heads.
         """
         super().__init__()
         self.layer_before = layer_before
 
-        self.self_attention_heads = self_attention_heads or [SelfAttention()]
+        self.self_attention_heads = nn.ModuleList(
+            self_attention_heads
+        ) or nn.ModuleList([SelfAttention()])
 
         if not self.self_attention_heads:
             raise ValueError("self_attention_heads must not be empty")
@@ -42,6 +44,7 @@ class MultiHeadAttention(nn.Module):
     ) -> torch.Tensor:
         """
         This method implements the forward pass of the Multi-Head Attention.
+        Concatenates output from the attention heads.
         Args:
             x: The input tensor of shape
             (optional_batch_size, sequence_length, embedding_dim).
