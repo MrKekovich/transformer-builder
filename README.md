@@ -1,7 +1,7 @@
 # transformer-builder
 
 [![License](https://img.shields.io/badge/license-BSD-blue.svg)](https://github.com/MrKekovich/transformer-builder/blob/master/LICENSE)
-[![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
+[![Python Version](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
 [![Project Status](https://img.shields.io/badge/Project%20Status-pre--alpha-blue)](https://github.com/MrKekovich/transformer-builder/)
 
 ---
