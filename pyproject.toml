@@ -1,6 +1,8 @@
 [tool.poetry]
 name = "transformer-builder"
+
 version = "0.1.0"
+
 description = "This package provides builder-like API to create really flexible transformers using PyTorch"
 authors = ["MrKekovich <mrkekovich.official@gmail.com>"]
 license = "BSD-3-Clause"
@@ -14,7 +16,6 @@ classifiers = [
     "License :: OSI Approved :: BSD License",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -28,7 +29,7 @@ classifiers = [
 "Bug Tracker" = "https://github.com/MrKekovich/transformer-builder/issues"
 
 [tool.poetry.dependencies]
-python = ">=3.8, <=3.11.6"
+python = ">=3.8, <3.12"
 torch = "^2.1.0"
 
 [tool.poetry.group.dev.dependencies]

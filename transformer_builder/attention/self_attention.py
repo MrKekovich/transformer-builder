@@ -71,9 +71,13 @@ class SelfAttention(nn.Module):
         """
         x = self.layer_before(x)
 
-        query = self.q_architecture(x)
-        key = self.k_architecture(x)
-        value = self.v_architecture(x)
+        query_future = torch.jit.fork(self.q_architecture, x)
+        key_future = torch.jit.fork(self.k_architecture, x)
+        value_future = torch.jit.fork(self.v_architecture, x)
+
+        query = torch.jit.wait(query_future)
+        key = torch.jit.wait(key_future)
+        value = torch.jit.wait(value_future)
 
         attention = scaled_dot_product_attention(
             query=query,
